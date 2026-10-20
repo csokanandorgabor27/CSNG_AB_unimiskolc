@@ -1,0 +1,29 @@
+CREATE TABLE tanfolyam (
+    tkod INT,
+    megnevezes VARCHAR2(100) NOT NULL,
+    tipus VARCHAR2(30),
+    ar INT,
+
+    CONSTRAINT pk_tanfolyam PRIMARY KEY (tkod),
+    CONSTRAINT chk_tanfolyam_ar CHECK (ar > 0)
+);
+
+CREATE TABLE resztvevo (
+    tajszam CHAR(13),
+    nev VARCHAR2(80) NOT NULL,
+    lakcim VARCHAR2(150),
+
+    CONSTRAINT pk_resztvevo PRIMARY KEY (tajszam)
+);
+
+CREATE TABLE befizetes (
+    befizetes_id INT,
+    tkod INT NOT NULL,
+    diak_id CHAR(13) NOT NULL,
+    osszeg INT,
+
+    CONSTRAINT pk_befizetes PRIMARY KEY (befizetes_id),
+    CONSTRAINT chk_befizetes_osszeg CHECK (osszeg > 0),
+    CONSTRAINT fk_befizetes_tanfolyam FOREIGN KEY (tkod) REFERENCES tanfolyam(tkod),
+    CONSTRAINT fk_befizetes_resztvevo FOREIGN KEY (diak_id) REFERENCES resztvevo(tajszam)
+);
